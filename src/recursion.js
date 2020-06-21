@@ -169,6 +169,25 @@ var multiply = function(x, y) {
 // 13. Write a function that divides two numbers without using the / operator or
 // Math methods to arrive at an approximate quotient (ignore decimal endings).
 var divide = function(x, y) {
+  if(x === 0 && y === 0){
+    return NaN;
+  }
+  if(x === 0){
+    return 0
+  } else if(y === 0){
+    return NaN;
+  }else if(x  < 0 && y > 0){
+    return -divide(-x, y);
+  }else if(x > 0 && y < 0){
+    return - divide(x, -y)
+  }else if(x < 0 && y < 0){
+    return divide(-x, -y);
+  }else if (x < y){
+    return 0;
+  }else{
+    return 1 + divide(x - y, y);
+  }
+
 
 };
 
@@ -178,18 +197,42 @@ var divide = function(x, y) {
 // http://www.cse.wustl.edu/~kjg/cse131/Notes/Recursion/recursion.html
 // https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm
 var gcd = function(x, y) {
-};
+  if(x < 0 || y < 0){
+    return null;
+  }else if(x === y){
+    return x;
+  }else if( x === 0 && y === 0){
+    return 0;
+  }else if(x > y){
+    return gcd(x - y, y)
+  }else if(y > x){
+    return gcd(x, y -x)
+  }
+
+}
 
 // 15. Write a function that compares each character of two strings and returns true if
 // both are identical.
 // compareStr('house', 'houses') // false
 // compareStr('tomato', 'tomato') // true
 var compareStr = function(str1, str2) {
+  if(str1.length === 0 && str2.length === 0){
+    return true
+  }else if(str1[0] === str2[0]){
+    return compareStr(str1.substring(1), str2.substring(1))
+  }else{
+    return false
+  }
 };
 
 // 16. Write a function that accepts a string and creates an array where each letter
 // occupies an index of the array.
 var createArray = function(str) {
+  if(str.length === 0){
+    return [];
+  }else {
+    return [str[0]].concat(createArray(str.substring(1)))
+  }
 };
 
 // 17. Reverse the order of an array
@@ -205,6 +248,11 @@ var reverseArr = function(array) {
 // buildList(0,5) // [0,0,0,0,0]
 // buildList(7,3) // [7,7,7]
 var buildList = function(value, length) {
+  if(length === 0){
+    return []
+  }else{
+    return [value].concat(buildList(value, length - 1))
+  }
 };
 
 // 19. Implement FizzBuzz. Given integer n, return an array of the string representations of 1 to n.
@@ -213,12 +261,33 @@ var buildList = function(value, length) {
 // For numbers which are multiples of both three and five, output “FizzBuzz” instead of the number.
 // fizzBuzz(5) // ['1','2','Fizz','4','Buzz']
 var fizzBuzz = function(n) {
-};
+  let item = '';
+  if(n === 0){
+    return [];
+  }else if(n % 15 === 0){
+    item = 'FizzBuzz';
+  } else if(n % 3 === 0){
+     item = 'Fizz';
+  }else if(n % 5 === 0){
+    item = 'Buzz';
+  }else{
+    item = n.toString();
+  }
+    return fizzBuzz(n-1).concat([item]);
+  }
 
 // 20. Count the occurence of a value in a list.
 // countOccurrence([2,7,4,4,1,4], 4) // 3
 // countOccurrence([2,'banana',4,4,1,'banana'], 'banana') // 2
 var countOccurrence = function(array, value) {
+  if(array.length === 0){
+    return 0
+  }else if(array[0] === value){
+    return 1 + countOccurrence(array.slice(1), value);
+  }else{
+    return countOccurrence(array.slice(1), value);
+  }
+
 };
 
 // 21. Write a recursive version of map.
